@@ -1,9 +1,9 @@
-import { Parking } from "../type/Parking";
+import { IParking } from "../type/IParking";
 import { ParkingAction, ParkingActionType } from "./ParkingAction";
 
-export const parkingReducer = (initState: Parking = {
-    levels:[],
-    name:'Car Parking'
+const parkingReducer = (initState: IParking = {
+    levels: [],
+    name: 'Car Parking'
 }, action: ParkingAction) => {
     console.log(action)
     switch (action.type) {
@@ -13,3 +13,6 @@ export const parkingReducer = (initState: Parking = {
             return initState
     }
 }
+
+
+export default parkingReducer;

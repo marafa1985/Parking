@@ -1,4 +1,4 @@
-import { Space } from "../type/Parking"
+import { ISpace } from "../type/IParking"
 
 export enum ParkingActionType {
     CAR_IN = 'CAR_ENTERED_PARKING',
@@ -7,24 +7,24 @@ export enum ParkingActionType {
 
 export interface CarEnteredParking {
     type: ParkingActionType.CAR_IN
-    payload: Space
+    payload: ISpace
 }
 
 export interface CarLeftParking {
     type: ParkingActionType.CAR_OUT
-    payload: Space
+    payload?: ISpace
 }
 
 export type ParkingAction = CarEnteredParking | CarLeftParking
 
-export const CarIn = (space: Space): CarEnteredParking => {
+export const CarIn = (space: ISpace): CarEnteredParking => {
     return {
         type: ParkingActionType.CAR_IN,
         payload: space,
     }
 }
 
-export const CarOut = (space: Space): CarLeftParking => {
+export const CarOut = (space: ISpace): CarLeftParking => {
     return {
         type: ParkingActionType.CAR_OUT,
         payload: space,

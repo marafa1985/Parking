@@ -2,18 +2,18 @@ export enum SpaceStatus {
     EMPTY = 'EMPTY',
     OCCUPIED = 'OCCUPIED'
 }
-export interface Space {
+export interface ISpace {
     id: number,
     status: SpaceStatus
 }
 
-export interface Level {
+export interface ILevel {
     levelsNumber: number,
-    spaces: Space[],
+    spaces: ISpace[],
     noSpace: boolean
 }
 
-export interface Parking {
-    levels: Level[]
+export interface IParking {
+    levels: ILevel[]
     name: string
 }

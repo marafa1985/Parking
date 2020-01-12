@@ -1,8 +1,8 @@
-import { Parking, Space, SpaceStatus } from "../type/Parking"
+import { IParking, ISpace, SpaceStatus } from "../type/IParking"
 
 export class Praking {
     capacity: number
-    parking: Parking
+    parking: IParking
 
     constructor(capacity: number = 9 * 4, levelsCount: number = 3) {
         this.capacity = capacity
@@ -20,8 +20,8 @@ export class Praking {
         }
     }
 
-    public initLevelSpaces(capacity: number): Space[] {
-        const spaces: Space[] = []
+    public initLevelSpaces(capacity: number): ISpace[] {
+        const spaces: ISpace[] = []
         for (let space = 0; space < capacity; space++) {
             spaces.push({
                 id: space,
