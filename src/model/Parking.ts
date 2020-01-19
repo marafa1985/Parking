@@ -1,21 +1,22 @@
-import { IParking, ISpace, SpaceStatus } from "../type/IParking"
+import { IParking, ISpace, SpaceStatus, ILevel } from "../type/IParking"
+import { ParkingState } from "../redux/ParkingState"
 
-export class Praking {
+export class Parking implements IParking {
     capacity: number
-    parking: IParking
-
+    isFull: boolean
+    name: string = 'Car Parking'
+    levels: ILevel[]
     constructor(capacity: number = 9 * 4, levelsCount: number = 3) {
         this.capacity = capacity
-        this.parking = {
-            name: 'Car Parkig',
-            levels: []
-        }
+        this.isFull = false
+        this.name = 'Car Parking'
+        this.levels = []
 
         for (let level = 0; level < levelsCount; level++) {
-            this.parking.levels.push({
+            this.levels.push({
                 levelsNumber: level,
                 spaces: this.initLevelSpaces(capacity),
-                noSpace: false
+                availableSpaces: capacity
             })
         }
     }
@@ -29,5 +30,76 @@ export class Praking {
             })
         }
         return spaces
+    }
+    /**
+     * CarIn
+     */
+    public CarIn(): ParkingState {
+        //check if there is a free spaces in the parking
+        if (this.levels.filter((level) => level.availableSpaces > 0).length === 0) {
+            this.isFull = true
+            return { parking: this }
+        }
+        // Take a Copy of current Level to prevent mutation
+        const currentLevels = [...this.levels]
+        // Sort Level Based on Number
+        const getSpaceByLevel = this.levels.sort((level) => level.levelsNumber)
+            .filter((level) => level.availableSpaces > 0)[0]
+
+        let EmptySpaceFound: boolean = false
+        // Search for Empty Space and return new Spaces array
+        const newLevelSpaces = getSpaceByLevel.spaces.sort((space) => space.id).map((space) => {
+            if (EmptySpaceFound === false && space.status === SpaceStatus.EMPTY) {
+                EmptySpaceFound = true
+                return { ...space, status: SpaceStatus.OCCUPIED }
+            }
+            return space
+        })
+        // return new Level Arrays to 
+        const newLevels: ILevel[] = currentLevels.map((level) => {
+            if (level.levelsNumber === getSpaceByLevel.levelsNumber) {
+                return {
+                    levelsNumber: getSpaceByLevel.levelsNumber,
+                    spaces: newLevelSpaces,
+                    availableSpaces: getSpaceByLevel.availableSpaces - 1,
+                    noSpace: getSpaceByLevel.availableSpaces === 1 ? true : false
+                }
+            }
+            return level
+        })
+        this.levels = [...newLevels]
+
+        // return new State 
+        return { parking: this }
+    }
+
+    public CarOut(targetLevelId: number, targetSpace: ISpace): ParkingState {
+        // Take a Copy of current Level to prevent mutation
+        const currentLevels = [...this.levels]
+        // Sort Level Based on Number
+        const targetLevel = this.levels.filter((level) => level.levelsNumber === targetLevelId)[0]
+        const newLevelSpaces = targetLevel.spaces.map((space) => {
+            if (space.id === targetSpace.id) {
+                targetLevel.availableSpaces = targetLevel.availableSpaces + 1
+                return { ...space, status: SpaceStatus.EMPTY }
+            }
+            return space
+        })
+
+        const newLevels: ILevel[] = currentLevels.map((level) => {
+            if (level.levelsNumber === targetLevel.levelsNumber) {
+                return {
+                    levelsNumber: targetLevel.levelsNumber,
+                    spaces: newLevelSpaces,
+                    availableSpaces: targetLevel.availableSpaces - 1,
+                    noSpace: targetLevel.availableSpaces === 1 ? true : false
+                }
+            }
+            return level
+        })
+        this.levels = [...newLevels]
+
+        // return new State 
+        return { parking: this }
     }
 }

@@ -1,8 +1,7 @@
 import React from 'react';
-import logo from './logo.svg';
 import { connect } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
-import { IParking } from './type/IParking';
+import { IParking, SpaceStatus } from './type/IParking';
 import { CarIn, CarOut, ParkingAction } from './redux/ParkingAction';
 
 import './App.scss';
@@ -11,21 +10,19 @@ export class App extends React.Component<StateProps & DispatchProps> {
 
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.tsx</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div>
+        <button onClick={e => {
+          this.props.CarIn()
+        }}>CarIn</button>
+        <button onClick={e => {
+          this.props.CarOut({
+            levelsNumber: 0,
+            space: {
+              id: 0,
+              status: SpaceStatus.EMPTY
+            }
+          })
+        }}>CarOut</button>
       </div>
     )
   }

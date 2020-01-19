@@ -10,10 +10,16 @@ export interface ISpace {
 export interface ILevel {
     levelsNumber: number,
     spaces: ISpace[],
-    noSpace: boolean
+    availableSpaces: number
 }
 
+export interface ICarOutParams {
+    levelsNumber: number,
+    space: ISpace
+}
 export interface IParking {
     levels: ILevel[]
     name: string
+    isFull: boolean
 }
+

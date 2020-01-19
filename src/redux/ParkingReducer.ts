@@ -1,16 +1,20 @@
-import { IParking } from "../type/IParking";
 import { ParkingAction, ParkingActionType } from "./ParkingAction";
+import { ParkingState } from './ParkingState'
+import { Parking } from "../model/Parking";
 
-const parkingReducer = (initState: IParking = {
-    levels: [],
-    name: 'Car Parking'
-}, action: ParkingAction) => {
-    console.log(action)
+const defaultInit: ParkingState = {
+    parking: new Parking()
+}
+const parkingReducer = (initState: ParkingState = defaultInit, action: ParkingAction) => {
+    console.log(initState)
     switch (action.type) {
         case ParkingActionType.CAR_IN:
-            return initState
+            return { ...initState.parking.CarIn() }
         case ParkingActionType.CAR_OUT:
-            return initState
+            return {
+                ...initState.parking.CarOut(action.payload.levelsNumber,
+                    action.payload.space)
+            }
     }
 }
 
