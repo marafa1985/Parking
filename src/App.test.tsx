@@ -13,6 +13,6 @@ test('renders learn react link', () => {
     </Provider>
 
   );
-  const linkElement = getByText(/CarIn/i);
+  const linkElement = getByText(/Car In/i);
   expect(linkElement).toBeInTheDocument();
 });
