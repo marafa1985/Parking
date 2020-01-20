@@ -5,6 +5,7 @@ import { Provider } from 'react-redux'
 import { createStore, compose } from 'redux';
 import parkingReducer from './redux/ParkingReducer';
 import App from './App'
+import './index.scss'
 
 const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const reduxStore = createStore(

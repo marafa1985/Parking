@@ -1,8 +1,8 @@
 import { ICarOutParams } from "../type/IParking"
 
 export enum ParkingActionType {
-    CAR_IN = 'CAR_ENTERED_PARKING',
-    CAR_OUT = 'CAR_LEFT_PARKING',
+    CAR_IN = '@parking/CAR_ENTERED_PARKING',
+    CAR_OUT = '@parking/CAR_LEFT_PARKING',
 }
 
 export interface CarEnteredParking {

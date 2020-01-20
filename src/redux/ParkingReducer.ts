@@ -6,16 +6,16 @@ const defaultInit: ParkingState = {
     parking: new Parking()
 }
 const parkingReducer = (initState: ParkingState = defaultInit, action: ParkingAction) => {
-    console.log(initState)
     switch (action.type) {
         case ParkingActionType.CAR_IN:
-            return { ...initState.parking.CarIn() }
+            return { ...initState.parking.carIn() }
         case ParkingActionType.CAR_OUT:
             return {
-                ...initState.parking.CarOut(action.payload.levelsNumber,
+                ...initState.parking.carOut(action.payload.levelsNumber,
                     action.payload.space)
             }
     }
+    return initState
 }
 
 

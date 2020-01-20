@@ -34,7 +34,7 @@ export class Parking implements IParking {
     /**
      * CarIn
      */
-    public CarIn(): ParkingState {
+    public carIn(): ParkingState {
         //check if there is a free spaces in the parking
         if (this.levels.filter((level) => level.availableSpaces > 0).length === 0) {
             this.isFull = true
@@ -61,19 +61,20 @@ export class Parking implements IParking {
                 return {
                     levelsNumber: getSpaceByLevel.levelsNumber,
                     spaces: newLevelSpaces,
-                    availableSpaces: getSpaceByLevel.availableSpaces - 1,
-                    noSpace: getSpaceByLevel.availableSpaces === 1 ? true : false
+                    availableSpaces: getSpaceByLevel.availableSpaces - 1
                 }
             }
             return level
         })
         this.levels = [...newLevels]
-
+        if (this.levels.filter((level) => level.availableSpaces > 0).length === 0) {
+            this.isFull = true
+        }
         // return new State 
         return { parking: this }
     }
 
-    public CarOut(targetLevelId: number, targetSpace: ISpace): ParkingState {
+    public carOut(targetLevelId: number, targetSpace: ISpace): ParkingState {
         // Take a Copy of current Level to prevent mutation
         const currentLevels = [...this.levels]
         // Sort Level Based on Number
@@ -91,8 +92,7 @@ export class Parking implements IParking {
                 return {
                     levelsNumber: targetLevel.levelsNumber,
                     spaces: newLevelSpaces,
-                    availableSpaces: targetLevel.availableSpaces - 1,
-                    noSpace: targetLevel.availableSpaces === 1 ? true : false
+                    availableSpaces: targetLevel.availableSpaces + 1
                 }
             }
             return level
@@ -100,6 +100,7 @@ export class Parking implements IParking {
         this.levels = [...newLevels]
 
         // return new State 
+        this.isFull = false
         return { parking: this }
     }
 }
