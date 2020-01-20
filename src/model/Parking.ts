@@ -6,7 +6,7 @@ export class Parking implements IParking {
     isFull: boolean
     name: string = 'Car Parking'
     levels: ILevel[]
-    constructor(capacity: number = 9 * 4, levelsCount: number = 3) {
+    constructor(capacity: number =  4, levelsCount: number = 3) {
         this.capacity = capacity
         this.isFull = false
         this.name = 'Car Parking'
@@ -92,7 +92,7 @@ export class Parking implements IParking {
                 return {
                     levelsNumber: targetLevel.levelsNumber,
                     spaces: newLevelSpaces,
-                    availableSpaces: targetLevel.availableSpaces + 1
+                    availableSpaces: targetLevel.availableSpaces
                 }
             }
             return level
